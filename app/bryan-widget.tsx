@@ -25,6 +25,7 @@ export function BryanWidget() {
       src="https://widget.bryan.chat/widget.js"
       data-organization-id="org_3CV6rWjfLv6is0ulddScqi7qMTl"
       data-hide-launcher="true"
+      data-position="bottom-left"
       strategy="afterInteractive"
     />
   );

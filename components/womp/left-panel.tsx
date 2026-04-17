@@ -10,13 +10,15 @@ import {
   Target,
   Box,
 } from "lucide-react";
+import { useScene } from "./scene-context";
 
 export function LeftPanel() {
+  const { objects, selectObject } = useScene();
+
   return (
     <div className="flex flex-col w-[272px] min-w-[272px] border-r border-gray-200 bg-white">
       {/* Header */}
       <div className="flex items-center gap-2 px-3 py-2 border-b border-gray-100">
-        {/* Womp logo */}
         <div className="flex items-center justify-center w-6 h-6">
           <svg viewBox="0 0 24 24" className="w-5 h-5 text-blue-600" fill="currentColor">
             <path d="M3 7l3 10h2l2-6 2 6h2l3-10h-2l-2 7-2-6h-2l-2 6-2-7z" />
@@ -55,9 +57,7 @@ export function LeftPanel() {
 
       {/* Cameras */}
       <div className="flex items-center justify-between px-3 py-2">
-        <div className="flex items-center gap-1">
-          <span className="text-xs font-medium text-gray-500">Cameras</span>
-        </div>
+        <span className="text-xs font-medium text-gray-500">Cameras</span>
         <div className="flex items-center gap-1">
           <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
           <button className="text-gray-400 hover:text-gray-600">
@@ -86,24 +86,29 @@ export function LeftPanel() {
           <ChevronRight className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
           <Box className="w-4 h-4 text-gray-400 flex-shrink-0" />
           <Target className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
-          <span className="text-xs text-gray-700 truncate">Area (1)</span>
+          <span className="text-xs text-gray-700 truncate">Area ({objects.length})</span>
         </div>
 
-        {/* Object 1 */}
-        <div className="flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-50 cursor-pointer">
-          <ChevronRight className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
-          <Box className="w-4 h-4 text-gray-400 flex-shrink-0" />
-          <div className="w-3 h-3 rounded-full bg-amber-200 flex-shrink-0" />
-          <span className="text-xs text-gray-700 truncate">A-very-cool-and-stylish-...</span>
-        </div>
-
-        {/* Object 2 */}
-        <div className="flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-50 cursor-pointer">
-          <ChevronRight className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
-          <Box className="w-4 h-4 text-gray-400 flex-shrink-0" />
-          <div className="w-3 h-3 rounded-full bg-purple-300 flex-shrink-0" />
-          <span className="text-xs text-gray-700 truncate">A-very-cool-and-stylish-...</span>
-        </div>
+        {/* Scene objects */}
+        {objects.map((obj) => (
+          <div
+            key={obj.id}
+            onClick={() => selectObject(obj.id)}
+            className={`flex items-center gap-1 px-2 py-1 rounded cursor-pointer ${
+              obj.selected ? "bg-blue-50" : "hover:bg-gray-50"
+            }`}
+          >
+            <ChevronRight className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
+            <Box className="w-4 h-4 text-gray-400 flex-shrink-0" />
+            <div
+              className="w-3 h-3 rounded-full flex-shrink-0"
+              style={{ backgroundColor: obj.color }}
+            />
+            <span className={`text-xs truncate ${obj.selected ? "text-blue-600 font-medium" : "text-gray-700"}`}>
+              {obj.name}
+            </span>
+          </div>
+        ))}
       </div>
 
       {/* Drop zone */}

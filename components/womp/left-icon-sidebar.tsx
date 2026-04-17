@@ -13,6 +13,7 @@ import {
   HelpCircle,
   ChevronDown,
 } from "lucide-react";
+import { useBryanChat } from "@/app/bryan-widget";
 
 const topItems = [
   { icon: Home, label: "Home", hasDropdown: false, active: false },
@@ -24,13 +25,14 @@ const topItems = [
 ];
 
 const bottomItems = [
-  { icon: Wifi, label: "" },
-  { icon: Download, label: "" },
-  { icon: MoreHorizontal, label: "" },
-  { icon: HelpCircle, label: "" },
+  { icon: Wifi },
+  { icon: Download },
+  { icon: MoreHorizontal },
 ];
 
 export function LeftIconSidebar() {
+  const { toggle } = useBryanChat();
+
   return (
     <div className="flex flex-col items-center justify-between w-[56px] min-w-[56px] border-r border-gray-200 bg-white py-2">
       {/* Top icons */}
@@ -63,6 +65,13 @@ export function LeftIconSidebar() {
             <item.icon className="w-5 h-5" strokeWidth={1.5} />
           </button>
         ))}
+        {/* Help button - opens Bryan chat */}
+        <button
+          onClick={toggle}
+          className="flex items-center justify-center w-9 h-9 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+        >
+          <HelpCircle className="w-5 h-5" strokeWidth={1.5} />
+        </button>
         {/* User avatar */}
         <button className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white text-xs font-semibold mt-1">
           H
